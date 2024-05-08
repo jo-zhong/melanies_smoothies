@@ -38,7 +38,8 @@ if ingredients_list:
         ingredients_string += item + ' '
 
         #display fruityvice nutrition info
-        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/watermelon")
+        st.subheader(item + ' Nutrition Information')
+        fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+item)
         fv_df = st.dataframe(data=fruityvice_response.json(), use_container_width=True)
     # st.write(ingredients_string)
 
