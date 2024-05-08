@@ -20,8 +20,11 @@ name_on_order = st.text_input('Name on Smoothie:')
 st.write('The name on your Smoothie will be: ', name_on_order)
 
 # session = get_active_session()
-my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
+my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'),col('SEARCH_ON'))
 # st.dataframe(data=my_dataframe, use_container_width=True)
+pd_df = my_dataframe.to_pandas()
+# st.dataframe(pd_df)
+# st.stop()
 
 ingredients_list = st.multiselect(
     'Choose up to 5 ingredients:'
@@ -37,6 +40,8 @@ if ingredients_list:
     for item in ingredients_list:
         ingredients_string += item + ' '
 
+        search_on=pd_df.loc[pd_df['FRUIT_NAME'] == item, 'SEARCH_ON'].iloc[0]
+        st.write('The search value for ', item,' is ', search_on, '.')
         #display fruityvice nutrition info
         st.subheader(item + ' Nutrition Information')
         fruityvice_response = requests.get("https://fruityvice.com/api/fruit/"+item)
